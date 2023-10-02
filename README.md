@@ -10,6 +10,13 @@ This is the official repositroy for 7th NVIDIA AI City Challenge (2023) Track 1:
 
 <img src="figure.jpg" width="650" />
 
+
+## Inference Steps
+1.  ```
+    git clone https://github.com/ipl-uw/AIC23_Track1_UWIPL_ETRI.git
+    cd AIC23_Track1_UWIPL_ETRI
+    ```
+2. Download the dataset from https://www.aicitychallenge.org/, and place the test data(AICITY2023/AIC23_Track1_MTMC_Tracking/test) in `./data/`
 ## Enviroment Requirements
 
 The implementation of our work is built upon [BoT-SORT](https://github.com/NirAharon/BoT-SORT), [OpenMMLab](https://github.com/open-mmlab), and [torchreid](https://github.com/KaiyangZhou/deep-person-reid). We also adapt [Cal_PnP](https://github.com/zhengthomastang/Cal_PnP) for camera self-calibration.
@@ -21,6 +28,30 @@ Four different enviroments are required for the reproduce process. Please instal
 4. [Installation for BoT-SORT](https://github.com/NirAharon/BoT-SORT#installation)
 
 \* optional for fast reproduce
+
+
+First install Bot-SORT  for fast reproduce,
+mmpose not necessary at the moment for fast reproduce, we have to install mmyolo,torchreid for inference with any other testing data.
+```
+#Bot-SORT
+conda create -n botsort_env python=3.7
+conda activate botsort_env
+
+# pytorch
+pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113 
+
+cd BoT-SORT
+pip3 install -r requirements.txt
+python3 setup.py develop
+pip3 install cython; pip3 install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
+
+# Cython-bbox
+pip3 install cython_bbox
+
+# faiss cpu / gpu
+pip3 install faiss-cpu
+pip3 install faiss-gpu
+```
 
 ## Training 
 
