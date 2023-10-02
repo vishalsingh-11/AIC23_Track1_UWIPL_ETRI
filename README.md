@@ -53,6 +53,15 @@ pip3 install faiss-cpu
 pip3 install faiss-gpu
 ```
 
+```
+#mmyolo installation
+
+# train-detector
+pip install future tensorboard
+pip install setuptools==59.5.0
+```
+
+
 ## Training 
 
 #### Train Synthetic Detector (skip for fast reproduce)
