@@ -78,6 +78,13 @@ pip3 install faiss-gpu
 ```
 
 #### mmcv Installation for mmyolo, mmpose
+
+```
+Pytorch: pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html 
+
+mmcv- pip install https://download.openmmlab.com/mmcv/dist/cu101/torch1.8.0/mmcv-2.0.0rc4-cp38-cp38-manylinux1_x86_64.whl 
+
+```
 <!--
 ```
 ### mmyolo Installtion
