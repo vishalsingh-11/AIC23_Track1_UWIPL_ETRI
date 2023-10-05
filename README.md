@@ -165,9 +165,10 @@ python tools/generate_submission.py <root_path>
 
 **1. Memory Issue with run_tracking.py** - Make sure to have sufficient memory, currently using (20 cpu's and 75 gigs kubeflow configuration)  \
 **2. Openmmlab Installations** - mmcv, mmpose, mmdet, mmyolo, mmengine - Make sure to use ```uncc-kubeflow-base``` image to avoid issues with mmcv. \
-**3. All mmcv,mmpose,mmdet,mmyolo installation version issues**
+**3. Inference on validation:** - Inference on validation requires training the models and changing the splits, cannot be done just using the provided pre-trained models.\
+**4. All mmcv,mmpose,mmdet,mmyolo installation version issues**
  - Make sure to follow above mentioned instructions for mmcv installation.
  - Clone the official repositories and replace the ones in the current versions(./mmpose, ./mmyolo)
  - Make sure to add back relevant missing files from the current repository into the latest cloned repositories. \
-**4. Inference on validation:** - Inference on validation requires training the models and changing the splits, cannot be done just using the provided pre-trained models.
+
    
