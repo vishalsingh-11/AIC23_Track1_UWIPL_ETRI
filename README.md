@@ -8,8 +8,9 @@ This is project is the implementation of the official repositroy for 7th NVIDIA 
 
 ## Directory Structure
 
-The complete project is available at ``` path ```
-Download the dataset from https://www.aicitychallenge.org/, and place the test data in `./data/`
+1. Make sure to use ```uncc-kubeflow-base``` docker image 
+2. The complete project is available at ``` path ```
+3. Download the dataset from https://www.aicitychallenge.org/, and place the test data in `./data/`
 
 You should see the `data` folder organized as follows: 
 ```
@@ -76,13 +77,17 @@ pip3 install faiss-cpu
 pip3 install faiss-gpu
 ```
 
+#### mmcv Installation for mmyolo, mmpose
+<!--
 ```
-#mmyolo installation
+### mmyolo Installtion
+Make sure to review Issues section before mmyolo installation.
 
 # train-detector
 pip install future tensorboard
 pip install setuptools==59.5.0
 ```
+-->
 ## Inferencing
 
 #### Get Detection (skip for fast reproduce)
@@ -134,23 +139,12 @@ conda activate botsort_env
 python tools/run_tracking.py <root_path>
 ```
 
-3. Generate foot keypoint (optional)
-```
-conda activate mmpose
-cd ../mmpose
-python demo/top_down_video_demo_with_track_file.py <tracking_file.txt> \ 
-       configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py \
-       https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \
-       --video-path <video_file.mp4> \
-       --out-file <out_keypoint.json>
-python tools/convert.py
-```
 
 4. Conduct spatio-temporal consistency reassignment 
 ```
 python STCRA/run_stcra.py <input_tracking_file_folder> <output_tracking_file_folder>
 ```
-
+<!--
 5. Generate final submission
 ```
 cd ../BoT-SORT
@@ -158,3 +152,13 @@ python tools/aic_interpolation.py <root_path>
 python tools/boundaryrect_removal.py <root_path>
 python tools/generate_submission.py <root_path>
 ```
+-->
+
+## Issues and Resolutions 
+
+**1. Memory Issue with run_tracking.py** - Make sure to have sufficient memory  \
+**2. Openmmlab Installations** - mmcv, mmpose, mmdet, mmyolo, mmengine - Make sure to use ```uncc-kubeflow-base``` image to avoid issues with mmcv. \
+**3. mmcv,mmpose,mmdet,mmyolo version issues**
+ - Make sure to follow above mentioned instructions for mmcv installation.
+ - Clone the official repositories and replace the ones in the current versions(./mmpose, ./mmyolo)
+ - Make sure to add back relevant missing files from the current repository into the latest cloned repositories.
