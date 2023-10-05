@@ -1,37 +1,60 @@
-# CVPRW2023: Enhancing Multi-Camera People Tracking with Anchor-Guided Clustering and Spatio-Temporal Consistency ID Re-Assignment
+# Multi-Camera People Tracking
 
-This is the official repositroy for 7th NVIDIA AI City Challenge (2023) Track 1: Multi-Camera People Tracking. [[Arxiv]](https://arxiv.org/abs/2304.09471)
+This is project is the implementation of the official repositroy for 7th NVIDIA AI City Challenge (2023) [Track 1: Multi-Camera People Tracking](https://github.com/ipl-uw/AIC23_Track1_UWIPL_ETRI) [[Arxiv]](https://arxiv.org/abs/2304.09471)
  
-## Ranking 
-
-<img src="ranking.jpg" width="650" />
-
 ## Overall Pipeline
 
 <img src="figure.jpg" width="650" />
 
+## Directory Structure
 
-## Inference Steps
-1.  ```
-    git clone https://github.com/ipl-uw/AIC23_Track1_UWIPL_ETRI.git
-    cd AIC23_Track1_UWIPL_ETRI
-    ```
-2. Download the dataset from https://www.aicitychallenge.org/, and place the test data(AICITY2023/AIC23_Track1_MTMC_Tracking/test) in `./data/`
+The complete project is available at ``` path ```
+Download the dataset from https://www.aicitychallenge.org/, and place the test data in `./data/`
+
+You should see the `data` folder organized as follows: 
+```
+data
+├── annotations
+│   ├── fine_tune
+│   │   ├── train_hospital_val_hospital_sr_20_0_img_15197.json
+│   │   ├── train_market_val_market_sr_20_0_img_19965.json
+│   │   ├── train_office_val_office_sr_20_0_img_20696.json
+│   │   └── train_storage_val_storage_sr_20_0_img_15846.json
+│   └── train_all_val_all_sr_20_10_img_77154.json
+├── train
+│   ├── S002
+│   │   ├── c008
+│   │   │   ├── frame
+│   │   │   ├── label.txt
+│   │   │   └── video.mp4
+│   .   .
+│   .   .
+├── validation
+├── test
+│   ├── S002
+│   │   ├── c008
+│   │   │   ├── video.mp4
+```
+
+
 ## Enviroment Requirements
 
+ ```
+    git clone https://github.com/ipl-uw/AIC23_Track1_UWIPL_ETRI.git
+    cd AIC23_Track1_UWIPL_ETRI
+ ```
 The implementation of our work is built upon [BoT-SORT](https://github.com/NirAharon/BoT-SORT), [OpenMMLab](https://github.com/open-mmlab), and [torchreid](https://github.com/KaiyangZhou/deep-person-reid). We also adapt [Cal_PnP](https://github.com/zhengthomastang/Cal_PnP) for camera self-calibration.
 
 Four different enviroments are required for the reproduce process. Please install these three enviroments according to the following repos:
 1. [Installation for mmyolo*](https://github.com/open-mmlab/mmyolo#%EF%B8%8F-installation-)
-2. [Installation for mmpose](https://mmpose.readthedocs.io/en/latest/installation.html)
+2. [Installation for mmpose*](https://mmpose.readthedocs.io/en/latest/installation.html)
 3. [Installation for torchreid*](https://github.com/KaiyangZhou/deep-person-reid#installation)
 4. [Installation for BoT-SORT](https://github.com/NirAharon/BoT-SORT#installation)
 
 \* optional for fast reproduce
 
 
-First install Bot-SORT  for fast reproduce,
-mmpose not necessary at the moment for fast reproduce, we have to install mmyolo,torchreid for inference with any other testing data.
+### Bot-SORT Installtion
 ```
 #Bot-SORT
 conda create -n botsort_env python=3.7
@@ -60,62 +83,6 @@ pip3 install faiss-gpu
 pip install future tensorboard
 pip install setuptools==59.5.0
 ```
-
-
-## Training 
-
-#### Train Synthetic Detector (skip for fast reproduce)
-0. Prepare MTMC Dataset and annotations
-Download `AIC23_Track1_MTMC_Tracking.zip` from [AICity organizer](https://www.aicitychallenge.org/2023-data-and-evaluation/) and unzip under the root directory of this repo and run:
-```
-bash scripts/0_prepare_mtmc_data.sh
-```
-
-You should see the `data` folder organized as follows: 
-```
-data
-├── annotations
-│   ├── fine_tune
-│   │   ├── train_hospital_val_hospital_sr_20_0_img_15197.json
-│   │   ├── train_market_val_market_sr_20_0_img_19965.json
-│   │   ├── train_office_val_office_sr_20_0_img_20696.json
-│   │   └── train_storage_val_storage_sr_20_0_img_15846.json
-│   └── train_all_val_all_sr_20_10_img_77154.json
-├── train
-│   ├── S002
-│   │   ├── c008
-│   │   │   ├── frame
-│   │   │   ├── label.txt
-│   │   │   └── video.mp4
-│   .   .
-│   .   .
-├── validation
-└── train
-```
-
-1. Train yolov7 models on synthetic data
-```
-bash scripts/1_train_detector.sh
-```
-
-\* Note that the configs we provided are the ones we used in our submission. They may not be optimized for your GPU, please adjust the batchsize accordingly.
-
-#### Train Synthetic ReID Model (skip for fast reproduce)
-0. Prepare ReID Dataset
-```
-mkdir deep-person-reid/reid-data
-```
-Download our [sampled dataset](https://drive.google.com/file/d/1M1I35sjOPaTWYFO4WgydqNZ9896cqQn9/view) and unzip it under [deep-person-reid/reid-data](deep-person-reid/reid-data).
-
-\* Note that the file name DukeMTMC is just for training convenience, the DukeMTMC dataset is not used in our training process.
-
-1. Train reid model on synthetic data
-```
-bash 2_train_reid.sh
-```
-
-[//]: # (After the training is finished, move the model to `deep-person-reid/checkpoints` and modify the model name to `synthetic_reid_model_60_epoch.pth`.)
-
 ## Inferencing
 
 #### Get Detection (skip for fast reproduce)
@@ -152,7 +119,7 @@ Download the [embedding npy files](https://drive.google.com/drive/folders/1qbwu3
 bash scripts/5_inference_emb.sh
 ```
 
-### Run Tracking
+#### Run Tracking
 
 The root_path for the following command should set to the repo's loaction
 
@@ -161,7 +128,7 @@ The root_path for the following command should set to the repo's loaction
 cd BoT-SORT
 ```
 
-2. Run tracking
+2. Run tracking - (Make sure to have Sufficient RAM(atleast 35 gigs) before executing run_tracking.py)
 ```
 conda activate botsort_env
 python tools/run_tracking.py <root_path>
